@@ -12,15 +12,15 @@ def quad_char(a,n): #déteriner si un élément est un carré parfait dans le co
     sq = [] #liste vide pour stocker les carrés 
     for i in range(len(F_n)): #on vérifie tous les éléments 
         sq.append(int(i**2)%n) #carrés modulos 7
-    if a == 0:
+    if a%n == 0:
         return 0
-    if a in sq: #si a appartient à sq, c'est un carré parfait
+    if a%n in sq: #si a appartient à sq, c'est un carré parfait
         return 1 #le quadratic character est égal à 1
     else: 
         return -1 #sinon -1
 
 """
-La matrice de Jacobsthal pour F_n est la matrice pour laquelle l'élément au rang i et à la colonne j est le quadratic character de j-i.
+La matrice de Jacobsthal pour F_n est la matrice pour laquelle l'élément au rang i et à la colonne j est le charactère quadratique de j-i.
 On la construit comme suivant:
 """
 
@@ -32,10 +32,18 @@ def jacob_matrix(n): #taille n donnée
         for i in range(n): #boucle pour construire chaque élément dans le rang (ce qui correspond à l'élément de chaque colonne)
             row.append(quad_char((j-i)%n,n)) #on ajoute chaque quadratic character au rang selon l'indice du rang - de la colonne modulo n
         M_J.append(row) #on ajoute chaque rang à la matrice
-    return M_J
-
-print(jacob_matrix(9)) #marche pour 7 mais pas pour 9? 
-
-print(quad_char(1,9))
+    return np.array(M_J)
 
 
+#marche uniquement pour les nbs premiers mais pas les puissances d'un premier impair? ex 9 ne fonctionne pas 
+#pour 9 sur wikipedia : utilisation d'une extension avec mipo mais comment procéder ici?
+
+def hadamard(n): #définir matrice Hadamard
+    H = np.zeros((n,n)) #créer matrice vide
+    I = np.identity(n) #créer matrice identité
+    if (n-1)%4 == 3: #Paley 1 : si n-1 == 3 mod 4, on crée une matrice de taille n
+        H = I + np.block([[0, np.ones(n-1)], [np.full((n-1,1), -1), jacob_matrix(n-1)]]) #matrice par blocs
+        return(np.array(H)) #matrice construite
+    #if n%4 == 1: #Paley 2
+
+print(hadamard(8))
