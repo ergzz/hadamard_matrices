@@ -44,6 +44,23 @@ def hadamard(n): #définir matrice Hadamard
     if (n-1)%4 == 3: #Paley 1 : si n-1 == 3 mod 4, on crée une matrice de taille n
         H = I + np.block([[0, np.ones(n-1)], [np.full((n-1,1), -1), jacob_matrix(n-1)]]) #matrice par blocs
         return(np.array(H)) #matrice construite
-    #if n%4 == 1: #Paley 2
+    if n%4 == 1: #Paley 2
+        H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
+        H_2 = H_2.reshape((1,n*n))
+        H_2[H_2==1] = np.array([1,1],[1,-1])
+        H_2[H_2==-1] = np.array([-1,-1],[-1,1])
+        H_2[H_2==0] = np.array([1,-1],[-1,-1])
+        H_2 = H_2.reshape(2*(n+1),2*(n+1))
+        return(np.array(H_2))
 
-print(hadamard(8))
+
+#print(hadamard(8))
+n=5
+H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
+H_2 = H_2.reshape((1,n*n))
+print(H_2)
+# H_2[H_2>=1] = np.array([1,1],[1,-1])
+# H_2[H_2<=-1] = np.array([-1,-1],[-1,1])
+# #H_2[H_2==0] = np.array([1,-1],[-1,-1])
+# H_2 = H_2.reshape(2*(n+1),2*(n+1))
+# print(H_2)
