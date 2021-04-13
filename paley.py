@@ -38,29 +38,47 @@ def jacob_matrix(n): #taille n donnée
 #marche uniquement pour les nbs premiers mais pas les puissances d'un premier impair? ex 9 ne fonctionne pas 
 #pour 9 sur wikipedia : utilisation d'une extension avec mipo mais comment procéder ici?
 
+def paley2(i):
+    if i==1: 
+        A = np.array([[1,1],[1,-1]])
+    elif i == -1:
+        A = np.array([[-1,-1],[-1,1]])
+    elif i == 0:
+        A = np.array([[1,-1],[-1,-1]])
+    return A
+
 def hadamard(n): #définir matrice Hadamard
-    H = np.zeros((n,n)) #créer matrice vide
-    I = np.identity(n) #créer matrice identité
+    H = np.zeros((n,n),int) #créer matrice vide
+    I = np.identity(n,int) #créer matrice identité
     if (n-1)%4 == 3: #Paley 1 : si n-1 == 3 mod 4, on crée une matrice de taille n
         H = I + np.block([[0, np.ones(n-1)], [np.full((n-1,1), -1), jacob_matrix(n-1)]]) #matrice par blocs
         return(np.array(H)) #matrice construite
-    if n%4 == 1: #Paley 2
+    if (n-1)%4 == 1: #Paley 2
         H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
-        H_2 = H_2.reshape((1,n*n))
-        H_2[H_2==1] = np.array([1,1],[1,-1])
-        H_2[H_2==-1] = np.array([-1,-1],[-1,1])
-        H_2[H_2==0] = np.array([1,-1],[-1,-1])
-        H_2 = H_2.reshape(2*(n+1),2*(n+1))
+        for col, row in np.ndenumerate(H_2):
+            if H_2[col,row] ==1 : 
+                H_2[col,row] = np.array([[1,1],[1,-1]])
+            elif H_2[col,row] == -1:
+                H_2[col,row] = np.array([[-1,-1],[-1,1]])
+            elif H_2[col,row] == 0:
+                H_2[col,row] = np.array([[1,-1],[-1,-1]])
+        H_2 = H_2.reshape((2*n)*(2*n))
         return(np.array(H_2))
 
 
 #print(hadamard(8))
+#print(hadamard(12))
+
 n=5
-H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
+H_2 = np.block([[0, np.ones((n-1),int)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
 H_2 = H_2.reshape((1,n*n))
 print(H_2)
-# H_2[H_2>=1] = np.array([1,1],[1,-1])
-# H_2[H_2<=-1] = np.array([-1,-1],[-1,1])
-# #H_2[H_2==0] = np.array([1,-1],[-1,-1])
-# H_2 = H_2.reshape(2*(n+1),2*(n+1))
-# print(H_2)
+H_2 = np.block([[0, np.ones((n-1),int)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
+for (col, row), value in np.ndenumerate(H_2):
+    if H_2[col,row] ==1 : 
+        H_2[col,row] = np.array([[1,1],[1,-1]], dtype=object)
+    elif H_2[col,row] == -1:
+        H_2[col,row] = np.array([[-1,-1],[-1,1]], dtype=object)
+    elif H_2[col,row] == 0:
+        H_2[col,row] = np.array([[1,-1],[-1,-1]], dtype=object)
+print(H_2)
