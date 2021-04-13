@@ -55,7 +55,7 @@ def hadamard(n): #définir matrice Hadamard
         return(np.array(H)) #matrice construite
     if (n-1)%4 == 1: #Paley 2
         H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
-        for col, row in np.ndenumerate(H_2):
+        for (col, row), value in np.ndenumerate(H_2):
             if H_2[col,row] ==1 : 
                 H_2[col,row] = np.array([[1,1],[1,-1]])
             elif H_2[col,row] == -1:
@@ -65,20 +65,25 @@ def hadamard(n): #définir matrice Hadamard
         H_2 = H_2.reshape((2*n)*(2*n))
         return(np.array(H_2))
 
+"""
+Souci avec passage de la dimension : transformer un coefficient en une matrice 2*2
+
+Idées: 
+- Forcer le passage en object
+- Construire par bloc/itération
+"""
+
 
 #print(hadamard(8))
 #print(hadamard(12))
 
 n=5
 H_2 = np.block([[0, np.ones((n-1),int)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
-H_2 = H_2.reshape((1,n*n))
-print(H_2)
-H_2 = np.block([[0, np.ones((n-1),int)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
 for (col, row), value in np.ndenumerate(H_2):
-    if H_2[col,row] ==1 : 
-        H_2[col,row] = np.array([[1,1],[1,-1]], dtype=object)
+    if H_2[col,row] == 1 : 
+        H_2[col,row] = 2
     elif H_2[col,row] == -1:
-        H_2[col,row] = np.array([[-1,-1],[-1,1]], dtype=object)
+        H_2[col,row] = -2
     elif H_2[col,row] == 0:
-        H_2[col,row] = np.array([[1,-1],[-1,-1]], dtype=object)
+        H_2[col,row] = 1
 print(H_2)
