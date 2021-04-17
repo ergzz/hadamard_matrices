@@ -56,7 +56,7 @@ def hadamard(n): #définir matrice Hadamard
         return(np.array(H)) #matrice construite
     if (n-1)%4 == 1: #Paley 2
         H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
-        H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n)) for j in range(n))
+        H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n)) for j in range(n)) #construction matrice par for loop avec vstack et hstack
         return(np.array(H_2))
 
 
