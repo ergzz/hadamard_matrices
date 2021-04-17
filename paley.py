@@ -39,6 +39,7 @@ def jacob_matrix(n): #taille n donnée
 #pour 9 sur wikipedia : utilisation d'une extension avec mipo mais comment procéder ici?
 
 def paley2(i):
+    A = np.zeros((2,2), int)
     if i==1: 
         A = np.array([[1,1],[1,-1]])
     elif i == -1:
@@ -55,35 +56,9 @@ def hadamard(n): #définir matrice Hadamard
         return(np.array(H)) #matrice construite
     if (n-1)%4 == 1: #Paley 2
         H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
-        for (col, row), value in np.ndenumerate(H_2):
-            if H_2[col,row] ==1 : 
-                H_2[col,row] = np.array([[1,1],[1,-1]])
-            elif H_2[col,row] == -1:
-                H_2[col,row] = np.array([[-1,-1],[-1,1]])
-            elif H_2[col,row] == 0:
-                H_2[col,row] = np.array([[1,-1],[-1,-1]])
-        H_2 = H_2.reshape((2*n)*(2*n))
+        H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n)) for j in range(n))
         return(np.array(H_2))
-
-"""
-Souci avec passage de la dimension : transformer un coefficient en une matrice 2*2
-
-Idées: 
-- Forcer le passage en object
-- Construire par bloc/itération
-"""
 
 
 #print(hadamard(8))
 #print(hadamard(12))
-
-n=5
-H_2 = np.block([[0, np.ones((n-1),int)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
-for (col, row), value in np.ndenumerate(H_2):
-    if H_2[col,row] == 1 : 
-        H_2[col,row] = 2
-    elif H_2[col,row] == -1:
-        H_2[col,row] = -2
-    elif H_2[col,row] == 0:
-        H_2[col,row] = 1
-print(H_2)
