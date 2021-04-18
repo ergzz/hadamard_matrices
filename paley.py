@@ -48,17 +48,14 @@ def paley2(i):
         A = np.array([[1,-1],[-1,-1]])
     return A
 
-def hadamard(n): #définir matrice Hadamard
+def hadamard(n): #définir matrice Hadamard, n est la taille du corps fini choisi
     H = np.zeros((n,n),int) #créer matrice vide
     I = np.identity(n,int) #créer matrice identité
-    if (n-1)%4 == 3: #Paley 1 : si n-1 == 3 mod 4, on crée une matrice de taille n
+    if n%4 == 3: #Paley 1 : si n == 3 mod 4, on crée une matrice de taille n
         H = I + np.block([[0, np.ones(n-1)], [np.full((n-1,1), -1), jacob_matrix(n-1)]]) #matrice par blocs
-        return(np.array(H)) #matrice construite
-    if (n-1)%4 == 1: #Paley 2
+        return(np.array(H)) #matrice construite, taille n+1
+    if n%4 == 1: #Paley 2
         H_2 = np.block([[0, np.ones(n-1)], [np.full((n-1,1), 1), jacob_matrix(n-1)]])
         H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n)) for j in range(n)) #construction matrice par for loop avec vstack et hstack
-        return(np.array(H_2))
+        return(np.array(H_2)) #matrice construite, taille 2n
 
-
-#print(hadamard(8))
-#print(hadamard(12))
