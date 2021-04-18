@@ -1,6 +1,9 @@
 import math
 import numpy as np
 import time
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
 
 def hadamard(n, dtype=int):
     """
@@ -53,6 +56,9 @@ def hadamard(n, dtype=int):
     return H
 
 
-debut = time.time()
-print(hadamard(8192))
-print(time.time()-debut)
+mat = hadamard(8)
+print(mat)
+plt.figure(figsize=(10,10))
+plt.imshow(mat, cmap='summer')
+plt.axis(False)
+plt.show()

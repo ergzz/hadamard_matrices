@@ -65,12 +65,11 @@ def hadamard(n): #définir matrice Hadamard, n est la taille du corps fini chois
 def visualisation(M): #simplifie la visualisation des matrices en remplaçant les -1 par des 0
     for (col, row), value in np.ndenumerate(M):
         if M[col,row] == -1 : 
-            M[col,row] = int(0)
+            M[col,row] = 0
     return np.array(M)
 
-mat = visualisation(hadamard(9))
-print(mat)
-plt.figure(figsize=(10,10))
-plt.imshow(mat, cmap='gray')
-plt.axis(False)
-plt.show()
+mat = visualisation(hadamard(13)) #on choisit la matrice à visualiser
+plt.figure(figsize=(20,20)) #on crée la taille de l'image
+plt.imshow(mat, cmap='winter') #on chosiit quelle image on veut montrer et la couleur
+plt.axis(False) #on désactive l'axe
+plt.show() #on montre le résultat obtenu dans le terminal
