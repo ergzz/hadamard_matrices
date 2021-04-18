@@ -1,8 +1,11 @@
 import math
 import numpy as np
+import time
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 
 """
-Un élément a est un carré parfait si a = b² pour un élément dans le corps fini.
+Un élément a est un carré parfait si a = b**2 pour un élément dans le corps fini.
 Pour déterminer quels éléments sont des carrés parfaits, on utilise des modulos.
 On élève tous les éléments du corps F_n au carré et on vérifie si l'un de ces carrés modulo n est égal à 1.
 """
@@ -59,5 +62,15 @@ def hadamard(n): #définir matrice Hadamard, n est la taille du corps fini chois
         H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n)) for j in range(n+1)) #construction matrice par for loop avec vstack et hstack
         return(np.array(H_2)) #matrice construite, taille 2(n+1)
 
-print(hadamard(7))
-print(hadamard(9))
+def visualisation(M): #simplifie la visualisation des matrices en remplaçant les -1 par des 0
+    for (col, row), value in np.ndenumerate(M):
+        if M[col,row] == -1 : 
+            M[col,row] = int(0)
+    return np.array(M)
+
+mat = visualisation(hadamard(9))
+print(mat)
+plt.figure(figsize=(10,10))
+plt.imshow(mat, cmap='gray')
+plt.axis(False)
+plt.show()

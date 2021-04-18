@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import time
 
 def hadamard(n, dtype=int):
     """
@@ -52,7 +53,6 @@ def hadamard(n, dtype=int):
     return H
 
 
-print(hadamard(8))
-print(hadamard(16))
-print(hadamard(32))
-
+debut = time.time()
+print(hadamard(8192))
+print(time.time()-debut)
