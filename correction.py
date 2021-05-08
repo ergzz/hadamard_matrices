@@ -28,6 +28,6 @@ def correctLine(c,n): #on rentre une "lettre" c et sa taille n
     elif dMax > 0: 
         return H_n[dMaxIndex]
     elif dMax < 0:
-        return -H_n(dMaxIndex)
+        return np.negative(H_n[dMaxIndex])
 
 print(correctLine(c,8))
