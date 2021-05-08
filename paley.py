@@ -37,7 +37,6 @@ def jacob_matrix(n): #taille n donnée
         M_J.append(row) #on ajoute chaque rang à la matrice
     return np.array(M_J)
 
-
 #marche uniquement pour les nbs premiers mais pas les puissances d'un premier impair? ex 9 ne fonctionne pas 
 #pour 9 sur wikipedia : utilisation d'une extension avec mipo mais comment procéder ici?
 
@@ -68,8 +67,9 @@ def visualisation(M): #simplifie la visualisation des matrices en remplaçant le
             M[col,row] = 0
     return np.array(M)
 
-mat = visualisation(hadamard(13)) #on choisit la matrice à visualiser
-plt.figure(figsize=(20,20)) #on crée la taille de l'image
-plt.imshow(mat, cmap='winter') #on chosiit quelle image on veut montrer et la couleur
+
+mat = hadamard(13) #on choisit la matrice à visualiser (marche avec ou sans le remplacement par des 0)
+plt.figure(figsize=(10,10)) #on crée la taille de l'image
+plt.imshow(mat, cmap='Spectral') #on chosiit quelle image on veut montrer et la couleur
 plt.axis(False) #on désactive l'axe
 plt.show() #on montre le résultat obtenu dans le terminal

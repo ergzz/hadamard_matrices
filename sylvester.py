@@ -56,9 +56,14 @@ def hadamard(n, dtype=int):
     return H
 
 
-mat = hadamard(8)
-print(mat)
-plt.figure(figsize=(10,10))
-plt.imshow(mat, cmap='summer')
-plt.axis(False)
-plt.show()
+
+
+# start = time.time()
+# mat = hadamard(8)
+# print(time.time()-start)
+
+# print(mat)
+# plt.figure(figsize=(10,10))
+# plt.imshow(mat, cmap='Spectral')
+# plt.axis(False)
+# plt.show()
