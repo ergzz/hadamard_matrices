@@ -6,28 +6,32 @@ import matplotlib.cm as cm
 
 import sylvester as syl
 
-#test
-M = np.array(syl.hadamard(8))
-c = np.array([1,-1,-1,1,1,1,1,1])
-
-d1 = c.dot(M)
-dmax1 = list(d1).index(max(d1, key=abs))
-
-# print(d1)
-# print(dmax1)
-# fin test
-
 def correctLine(c,n): #on rentre une "lettre" c et sa taille n
-    H_n = np.array(syl.hadamard(n)) #créer la matrice d'Hadamard de taille n
+    H_n = syl.hadamard(n) #créer la matrice d'Hadamard de taille n
     d = c.dot(H_n) #produit entre la matrice et la lettre
-    dMax = max(d, key=abs)
-    dMaxIndex = list(d).index(max(d, key=abs)) #index maximum en valeur absolue
+    dMax = max(d.max(), d.min(), key=abs) #élément en valeur absolue
+    dMaxIndex = np.where(d == abs(dMax))[1] #trouver l'index du max ou du min 
     hamming = n/2 #permet de déterminer la capacité de correction 
     if abs(dMax) == hamming: #impossible à corriger dans ce cas
-        return "Trop ambigu pour corriger"
+        print("Trop ambigu pour corriger")
     elif dMax > 0: 
-        return H_n[dMaxIndex]
+        #print(H_n[dMaxIndex]) #retourne la ligne correspondante si indice positif
+        print(chr(int(dMaxIndex)))
     elif dMax < 0:
-        return np.negative(H_n[dMaxIndex])
+        #print(np.negative(H_n[dMaxIndex])) #opposé si indice négatif
+        print(chr(int(dMaxIndex)))
 
-print(correctLine(c,8))
+
+def convertMessage(m): #convertir un message de ascii en ligne de la matrice H_128
+    H_128 = syl.hadamard(128) #matrice 128
+    convertedMessage = [] #message 
+    for letter in m: 
+        convertedMessage.append(H_128[ord(letter)]) #ajoute la ligne correspondant au charactère ascii
+    return np.array(convertedMessage)
+
+
+def correctMessage(m): #utilise le correct line sur un message entier
+    for char in m: 
+        correctLine(convertMessage(char), 128)
+
+correctMessage("He")
