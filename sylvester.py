@@ -59,7 +59,7 @@ def hadamard(n, dtype=int):
 
 
 # start = time.time()
-# mat = hadamard(8)
+# mat = hadamard(128)
 # print(time.time()-start)
 
 # print(mat)

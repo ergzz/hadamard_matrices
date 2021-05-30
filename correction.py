@@ -1,11 +1,12 @@
 import math
 import numpy as np
-import time
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import random
 
 import sylvester as syl
+
+def convertLetter(l): #convertir un message de ascii en ligne de la matrice H_128
+    H_128 = syl.hadamard(128) #matrice 128
+    return np.array(H_128[ord(l)])
 
 def correctLine(c,n): #on rentre une "lettre" c et sa taille n
     H_n = syl.hadamard(n) #créer la matrice d'Hadamard de taille n
@@ -20,17 +21,16 @@ def correctLine(c,n): #on rentre une "lettre" c et sa taille n
 
 def brouille(l,n): #brouille une liste en n endroits
     for i in range(n): 
-        l[random.randint(0,len(l)-1)] = random.choice([-1,1])
+        a = random.randint(0,len(l)-1)
+        l[a] = -l[a]
     return l
-
-def convertLetter(l): #convertir un message de ascii en ligne de la matrice H_128
-    H_128 = syl.hadamard(128) #matrice 128
-    return np.array(H_128[ord(l)])
-
 
 def correctMessage(m): #utilise le correct line sur un message entier
     for char in m: 
-        print(correctLine(brouille(convertLetter(char),75), 128))
+        print(correctLine(brouille(convertLetter(char),50), 128))
 
-print(correctMessage("Bonjour a tous"))
+print(brouille(convertLetter("e"),20))
 
+#print(correctLine(brouille(convertLetter("e"),50),128))
+
+print(correctMessage("Mariner 9"))

@@ -58,7 +58,7 @@ def hadamard(n): #définir matrice Hadamard, n est la taille du corps fini chois
         return(np.array(H)) #matrice construite, taille n+1
     if n%4 == 1: #Paley 2
         H_2 = np.block([[0, np.ones(n)], [np.full((n,1), 1), jacob_matrix(n)]])
-        H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n)) for j in range(n+1)) #construction matrice par for loop avec vstack et hstack
+        H_2 = np.vstack(np.hstack(paley2(H_2[j][i]) for i in range(n+1)) for j in range(n+1)) #construction matrice par for loop avec vstack et hstack
         return(np.array(H_2)) #matrice construite, taille 2(n+1)
 
 def visualisation(M): #simplifie la visualisation des matrices en remplaçant les -1 par des 0
@@ -68,8 +68,8 @@ def visualisation(M): #simplifie la visualisation des matrices en remplaçant le
     return np.array(M)
 
 
-mat = hadamard(13) #on choisit la matrice à visualiser (marche avec ou sans le remplacement par des 0)
-plt.figure(figsize=(10,10)) #on crée la taille de l'image
+mat = hadamard(17) #on choisit la matrice à visualiser (marche avec ou sans le remplacement par des 0)
+plt.figure(figsize=(20,20)) #on crée la taille de l'image
 plt.imshow(mat, cmap='Spectral') #on chosiit quelle image on veut montrer et la couleur
 plt.axis(False) #on désactive l'axe
 plt.show() #on montre le résultat obtenu dans le terminal
